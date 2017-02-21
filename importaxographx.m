@@ -1,3 +1,8 @@
+% Import AxoGraph X files into MATLAB
+%
+% This script is provided with AxoGraph X and has been modified to correct a few problems.
+% Corrections by: Jeffrey Gill <jeffrey.p.gill@gmail.com>
+
 function [data, hd] = importaxo(fn)
 %IMPORTAXO Import Axograph files
 %   [data, hd] = importaxo(filename)
@@ -42,6 +47,16 @@ function [data, hd] = importFromFile(fn)
         hd.YCol(iYCol).colType = fread(fid, 1, 'int32')';
         hd.YCol(iYCol).titlelen = fread(fid, 1, 'int32')';
         hd.YCol(iYCol).title    = (fread(fid, hd.YCol(iYCol).titlelen, '*char')');
+        
+        %%%%%%%%%%%%%%% REMOVE NULL CHARACTERS %%%%%%%%%%%%%%%
+        % It seems that the types are not set correctly for  %
+        % the version of AxoGraph X that I have because      %
+        % titlelen is double what it should be and title has %
+        % null characters inserted before each real          %
+        % character. This code corrects these errors.        %
+        hd.YCol(iYCol).titlelen = hd.YCol(iYCol).titlelen / 2;
+        hd.YCol(iYCol).title = hd.YCol(iYCol).title(2:2:end);
+        %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
         
         switch hd.YCol(iYCol).colType
             case 4  % column type is short
