@@ -1,4 +1,5 @@
 % Import AxoGraph X files into MATLAB
+% https://github.com/CWRUChielLab/importaxographx
 %
 % This script is provided with AxoGraph X and has been modified to correct a few problems.
 % Corrections by: Jeffrey Gill <jeffrey.p.gill@gmail.com>
@@ -69,7 +70,12 @@ function [data, hd] = importFromFile(fn)
                 data(:, iYCol) = fread(fid,hd.YCol(iYCol).nPoints, 'double');
             case 9  % 'series' 
                  data0 = fread(fid,2, 'double');
-                 data(:, iYCol) = (1:1:hd.YCol(iYCol).nPoints)*data0(2)+ data0(1);
+                 %data(:, iYCol) = (1:1:hd.YCol(iYCol).nPoints)*data0(2)+ data0(1);
+                 %%%%%%%%%%%%%%%%%%%%%%%% FIX SERIES START %%%%%%%%%%%%%%%%%%%%%%%%%
+                 % data0(1) is the starting value, data0(2) is the interval, so    %
+                 % the code above is off by one. This code corrects the error.     %
+                 data(:, iYCol) = (0:1:hd.YCol(iYCol).nPoints-1)*data0(2)+ data0(1);
+                 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
             case 10 % 'scaled short'
                 scale = fread(fid,1, 'double');
                 offset = fread(fid,1, 'double');
