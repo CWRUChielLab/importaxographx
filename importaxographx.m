@@ -48,7 +48,7 @@ function [data, hd] = importFromFile(fn)
         hd.YCol(iYCol).colType = fread(fid, 1, 'int32')';
         hd.YCol(iYCol).titlelen = fread(fid, 1, 'int32')';
         hd.YCol(iYCol).title    = (fread(fid, hd.YCol(iYCol).titlelen, '*char')');
-        
+
         %%%%%%%%%%%%%%% REMOVE NULL CHARACTERS %%%%%%%%%%%%%%%
         % It seems that the types are not set correctly for  %
         % the version of AxoGraph X that I have because      %
@@ -58,7 +58,7 @@ function [data, hd] = importFromFile(fn)
         hd.YCol(iYCol).titlelen = hd.YCol(iYCol).titlelen / 2;
         hd.YCol(iYCol).title = hd.YCol(iYCol).title(2:2:end);
         %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-        
+
         switch hd.YCol(iYCol).colType
             case 4  % column type is short
                 data(:, iYCol) = double(fread(fid,hd.YCol(iYCol).nPoints, 'int16'));
@@ -68,7 +68,7 @@ function [data, hd] = importFromFile(fn)
                 data(:, iYCol) = double(fread(fid,hd.YCol(iYCol).nPoints, 'float32'));
             case 7  % column type is double
                 data(:, iYCol) = fread(fid,hd.YCol(iYCol).nPoints, 'double');
-            case 9  % 'series' 
+            case 9  % 'series'
                  data0 = fread(fid,2, 'double');
                  %data(:, iYCol) = (1:1:hd.YCol(iYCol).nPoints)*data0(2)+ data0(1);
                  %%%%%%%%%%%%%%%%%%%%%%%% FIX SERIES START %%%%%%%%%%%%%%%%%%%%%%%%%
@@ -82,9 +82,8 @@ function [data, hd] = importFromFile(fn)
                 data0 = fread(fid,hd.YCol(iYCol).nPoints, 'int16');
                 data(:, iYCol)  = double(data0)*scale + offset;
             otherwise
-                disp ['Unknown column type:' num2str(hd.YCol(iYCol).colType)  ' Cannot continue reading the file']; 
+                disp(['Unknown column type:' num2str(hd.YCol(iYCol).colType)  ' Cannot continue reading the file']);
         end
     end
 
     fclose(fid);
-
