@@ -4,8 +4,8 @@
 % This script is provided with AxoGraph X and has been modified to correct a few problems.
 % Corrections by: Jeffrey Gill <jeffrey.p.gill@gmail.com>
 
-function [data, hd] = importaxo(fn)
-%IMPORTAXO Import Axograph files
+function [data, hd] = importaxographx(fn)
+%IMPORTAXOGRAPHX Import Axograph files
 %   [data, hd] = importaxo(filename)
 %   [data, hd] = importaxo -> opens a dialog box
 %
